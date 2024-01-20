@@ -1,0 +1,97 @@
+CREATE OR REPLACE FUNCTION after_password_change()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Eğer şifre değiştiyse log'a ekle
+    IF OLD.pword IS DISTINCT FROM NEW.pword THEN
+        INSERT INTO kullanici_log (username, changed_column, new_value)
+        VALUES (NEW.username, 'pword', NEW.pword);
+		RAISE NOTICE 'Trigger çalıştı';
+		RETURN NEW;
+    END IF;
+	RAISE NOTICE'Trigger çalışmadı';
+	RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_after_password_change
+AFTER UPDATE OF pword
+ON kullanici
+FOR EACH ROW
+EXECUTE FUNCTION after_password_change();
+
+
+
+
+
+CREATE OR REPLACE FUNCTION after_city_change()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Eğer şehir değiştiyse log'a ekle
+    IF OLD.city IS DISTINCT FROM NEW.city THEN
+        INSERT INTO kullanici_log (username, changed_column, new_value)
+        VALUES (NEW.username, 'city', NEW.city);
+		RAISE NOTICE 'Trigger çalıştı';
+		RETURN NEW;
+    END IF;
+	    RAISE NOTICE'Trigger çalışmadı';
+	    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_after_city_change
+AFTER UPDATE OF city
+ON kullanici
+FOR EACH ROW
+EXECUTE FUNCTION after_city_change();
+
+
+
+
+CREATE OR REPLACE FUNCTION fonk(ID INT)
+RETURNS SETOF INT AS $$
+DECLARE 
+    deger INT;
+BEGIN
+    SELECT adoption_id
+    INTO deger
+    FROM adoption, animal
+    WHERE animal.animal_id = adoption.animal_id AND animal.animal_id = ID;
+
+    RETURN NEXT deger;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+CREATE OR REPLACE FUNCTION basvuru_sil(isim VARCHAR(15),ID INT)
+RETURNS VOID AS $$
+DECLARE 
+    cursor_basvuru_sil cursor for SELECT application_id
+    FROM application,adoption,animal
+    WHERE application.username=isim and 
+    application.adoption_id=adoption.adoption_id and
+	animal.animal_id=adoption.animal_id and
+    animal.animal_id=ID;
+BEGIN
+     for brow in cursor_basvuru_sil LOOP
+	 DELETE FROM application WHERE application_id=brow.application_id;
+	 end loop;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+
+CREATE OR REPLACE FUNCTION InsertUser1(p_username VARCHAR(15), p_password VARCHAR(15), p_city VARCHAR(15),p_age INT)
+RETURNS VOID AS $$
+BEGIN
+    INSERT INTO kullanici (username, pword, city, age)
+    VALUES (p_username, p_password, p_city, p_age);
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE VIEW tablo AS
+SELECT username,pword FROM kullanici; 
+
+

@@ -1,0 +1,46 @@
+-- Create sequences
+CREATE SEQUENCE animal_id_seq;
+CREATE SEQUENCE adoption_id_seq;
+CREATE SEQUENCE application_id_seq;
+
+-- Create tables using sequences
+CREATE TABLE kullanici (
+   username VARCHAR(15),
+   pword VARCHAR(15),
+   city VARCHAR(20),
+   age INT CHECK (age BETWEEN 18 AND 100),
+   PRIMARY KEY(username)
+);
+
+CREATE TABLE animal (
+   animal_id INT DEFAULT NEXTVAL('animal_id_seq') NOT NULL,
+   animal_type VARCHAR(20),
+   PRIMARY KEY(animal_id)
+);
+
+CREATE TABLE adoption (
+  adoption_id INT DEFAULT NEXTVAL('adoption_id_seq') NOT NULL,
+  animal_id INT NOT NULL,
+  username VARCHAR(15),
+  fiyat INT,
+  PRIMARY KEY(adoption_id),
+  FOREIGN KEY(animal_id) REFERENCES animal(animal_id) ON DELETE CASCADE,
+  FOREIGN KEY(username) REFERENCES kullanici(username) ON DELETE CASCADE
+);
+
+CREATE TABLE application (
+  application_id INT DEFAULT NEXTVAL('application_id_seq') NOT NULL,
+  adoption_id INT NOT NULL,
+  username VARCHAR(15),
+  PRIMARY KEY(application_id),
+  FOREIGN KEY(adoption_id) REFERENCES adoption(adoption_id) ON DELETE CASCADE,
+  FOREIGN KEY( username) REFERENCES kullanici( username) ON DELETE CASCADE
+);
+
+CREATE TABLE kullanici_log (
+   log_id SERIAL PRIMARY KEY,
+   username VARCHAR(15),
+   changed_column VARCHAR(20),
+   new_value VARCHAR(255),
+   change_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

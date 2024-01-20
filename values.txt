@@ -1,0 +1,70 @@
+INSERT INTO kullanici (username, pword, city, age) VALUES
+('ahmet', 'pw1', 'Edirne', 25),
+('mehmet', 'pw2', 'Erzurum', 30),
+('yusuf', 'pw3', 'Afyon', 22),
+('zeynel', 'pw4', 'Sakarya', 28),
+('melisa', 'pw5', 'İstanbul', 35),
+('ayşe', 'pw6', 'Antalya', 27),
+('fatma', 'pw7', 'Konya', 31),
+('nisa', 'pw8', 'Ankara', 29),
+('zeynep', 'pw9', 'İzmir', 26),
+('burkay', 'pw10', 'Erzincan', 32);
+
+-- Inserting 20 sample records into the animal table
+INSERT INTO animal (animal_type) VALUES
+('Dog'),
+('Cat'),
+('Bird'),
+('Cat'),
+('Dog'),
+('Cat'),
+('Dog'),
+('Bird'),
+('Bird'),
+('Cat'),
+('Dog'),
+('Cat'),
+('Bird'),
+('Cat'),
+('Dog'),
+('Cat'),
+('Dog'),
+('Bird'),
+('Bird'),
+('Cat');
+
+-- Inserting 20 sample records into the adoption table
+INSERT INTO adoption (animal_id, username,fiyat) VALUES
+(1, 'ahmet',0),
+(2, 'mehmet',10),
+(3, 'yusuf',200),
+(4, 'zeynel',0),
+(5, 'melisa',60),
+(6, 'ayşe',30),
+(7, 'fatma',0),
+(8, 'nisa',90),
+(9, 'zeynep',45),
+(10, 'burkay',0),
+(11, 'ahmet',150),
+(12, 'mehmet',80),
+(13, 'yusuf',75),
+(14, 'zeynel',50),
+(15, 'melisa',200),
+(16, 'ayşe',250),
+(17, 'fatma',150),
+(18, 'nisa',70),
+(19, 'zeynep',45),
+(20, 'burkay',130);
+
+-- Inserting 10 sample records into the application table
+INSERT INTO application (adoption_id, username) VALUES
+(1, 'ahmet'),
+(8, 'mehmet'),
+(9, 'yusuf'),
+(2, 'zeynel'),
+(3, 'melisa'),
+(8, 'ayşe'),
+(9, 'fatma'),
+(2, 'nisa'),
+(1, 'zeynep'),
+(3, 'burkay');
